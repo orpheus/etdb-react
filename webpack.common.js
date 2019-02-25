@@ -1,11 +1,10 @@
 const path = require('path');
-const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: './app.js',
+  entry: path.resolve(__dirname, 'src/app.js'),
   plugins: [
     new CleanWebpackPlugin(['dist']),
     new HtmlWebpackPlugin({
@@ -21,12 +20,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /.js?$/,
-        loader: 'babel-loader',
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        query: {
-          presets: ['env', 'react']
-        }
+        use: ['babel-loader']
       },
       {
         test: /\.css$/,
@@ -41,6 +37,9 @@ module.exports = {
         ]
       }
     ]
+  },
+  resolve: {
+    extensions: ['*', '.js', '.jsx']
   },
   node: {
     fs: "empty"
